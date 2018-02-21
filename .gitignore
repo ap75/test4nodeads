@@ -1,0 +1,12 @@
+__pycache__
+myvenv
+media
+db.sqlite3
+.DS_Store
+*.pyc
+*.log
+*.tmp
+*.bat
+*.ini
+*.bkp
+local_*.*
