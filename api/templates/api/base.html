@@ -1,0 +1,26 @@
+ {% load staticfiles %}
+ <!DOCTYPE html>
+ <html>
+  <head>
+    {% block headers %}
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+      {% if user.is_authenticated %}
+        <p class="top-menu">Здравствуйте, {{ user.username }} <small>(
+          {% if user.is_superuser %}
+            <a href="/admin/">Администрирование</a>,
+          {% endif %}
+          <a href="{% url 'logout' %}">Выход</a>)</small></p>
+      {% else %}
+        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span>Войти</a>
+      {% endif %}
+      <h4>Куда пойти: <a href="{% url 'list' %}">список</a></h4>
+    </header>
+    <article>
+      {% block content %}
+      {% endblock %}
+    </article>
+  </body>
+</html>

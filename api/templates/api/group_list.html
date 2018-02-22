@@ -1,0 +1,21 @@
+{% extends 'api/base.html' %}
+{% load staticfiles %}
+{% block headers %}
+  <title>Список групп</title>
+{% endblock headers %}
+{% block content %}
+  <h3>Список групп</h3>
+  {% if group_list %}
+    <ul>
+	  {% for group in group_list %}
+        <li>
+          <a href="{{ group.get_absolute_url }}"><img src="{% static group.icon %} ">{{ group.name }}</a>
+		  {% if group.parent %}from: <a href="">{{group.parent.name}}</a>{% endif %}
+		  {% if group.descr %}({{group.descr}}){% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}  
+{% endblock content %}
