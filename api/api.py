@@ -1,5 +1,5 @@
 from tastypie import fields
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
 from .models import Group, Element
 
 
@@ -20,6 +20,9 @@ class ElementResource(ModelResource):
     class Meta:
         queryset = Element.objects.all()
         resource_name = 'element'
+        filtering = {
+            'group': ALL_WITH_RELATIONS
+        }
 
     def get_object_list(self, request):
         return super(ElementResource, self).get_object_list(request).filter(checked=True)
