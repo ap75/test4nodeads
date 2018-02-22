@@ -1,18 +1,19 @@
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
-from tastypie.paginator import Paginator
+#from tastypie.paginator import Paginator
 from .models import Group, Element
 
 
 class GroupResource(ModelResource):
+    parent = fields.ForeignKey('self', 'parent', blank=True, null=True)
     class Meta:
         queryset = Group.objects.all()
         resource_name = 'group'
         filtering = {
             'parent': ALL_WITH_RELATIONS
         }
-        paginator_class = Paginator
+        #paginator_class = Paginator
         authorization = Authorization()
 
     def dehydrate(self, bundle):
@@ -32,7 +33,7 @@ class ElementResource(ModelResource):
         filtering = {
             'group': ALL_WITH_RELATIONS
         }
-        paginator_class = Paginator
+        #paginator_class = Paginator
         authorization = Authorization()
 
     def get_object_list(self, request):
