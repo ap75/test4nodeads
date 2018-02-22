@@ -1,6 +1,7 @@
 __pycache__
 myvenv
 media
+upload
 db.sqlite3
 .DS_Store
 *.pyc
