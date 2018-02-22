@@ -8,9 +8,18 @@ class GroupResource(ModelResource):
         queryset = Group.objects.all()
         resource_name = 'group'
 
+    def dehydrate(self, bundle):
+        bundle.data['group_count'] = Group.objects.filter(parent=bundle.obj.id).count()
+        bundle.data['elem_count'] = Element.objects.filter(group=bundle.obj.id).count()
+        return bundle
+
 
 class ElementResource(ModelResource):
     group = fields.ForeignKey(GroupResource, 'group', blank=True, null=True)
+
     class Meta:
-        queryset = Element.objects.filter(checked=True)
+        queryset = Element.objects.all()
         resource_name = 'element'
+
+    def get_object_list(self, request):
+        return super(ElementResource, self).get_object_list(request).filter(checked=True)
