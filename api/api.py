@@ -1,7 +1,6 @@
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
-#from tastypie.paginator import Paginator
 from .models import Group, Element
 
 
@@ -13,19 +12,17 @@ class GroupResource(ModelResource):
         filtering = {
             'parent': ALL_WITH_RELATIONS
         }
-        #paginator_class = Paginator
-        authorization = Authorization()
 
     def dehydrate(self, bundle):
         bundle.data['group_count'] = Group.objects.filter(parent=bundle.obj.id).count()
-        bundle.data['elem_count'] = Element.objects.filter(group=bundle.obj.id).count()
+        bundle.data['elem_count'] = Element.objects.filter(group=bundle.obj.id, checked=True).count()
         return bundle
         # или переделать queryset с annotate()?
 
 
 class ElementResource(ModelResource):
     group = fields.ForeignKey(GroupResource, 'group', blank=True, null=True)
-    checked = fields.BooleanField(readonly=True, default=False)
+    checked = fields.BooleanField(readonly=True)
 
     class Meta:
         queryset = Element.objects.all()
@@ -33,7 +30,6 @@ class ElementResource(ModelResource):
         filtering = {
             'group': ALL_WITH_RELATIONS
         }
-        #paginator_class = Paginator
         authorization = Authorization()
 
     def get_object_list(self, request):
