@@ -21,7 +21,9 @@ class GroupResource(ModelResource):
 
 
 class ElementResource(ModelResource):
-    group = fields.ForeignKey(GroupResource, 'group', blank=True, null=True)
+    group = fields.ForeignKey(GroupResource, 'group')
+    #icon = fields.FileField(attribute="img")
+    created = fields.DateField(readonly=True)
     checked = fields.BooleanField(readonly=True)
 
     class Meta:
